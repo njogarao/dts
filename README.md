@@ -13,8 +13,9 @@ Please install below third party python modules on your tester machine.
 
 Build kernel for OcteonTX
 --------------------------
-i. Download OCTEONTX-SDK-6.2.0 rpm + Patch1 from diablo
-ii. Extract RPM and follow the README file for how to build kernel.
+- Download OCTEONTX-SDK-6.2.0 rpm + Patch1 from diablo (Diablo path: sw_qa/releases/octeontx/sdk)
+
+- Extract RPM and follow the README file for how to build kernel.
 
 Please make sure below drivers as a module in kernel.
 
@@ -41,25 +42,25 @@ https://github.com/njogarao/dts.git
 - Copy 'dpdk.tar.gz' file to  'dts/dep' folder.
   
 - Build dpdk on DUT with cavium toolchain, please copy toolchain to DUT and add 'toolchainpath=/home/source.sh'  in dts/execution.cfg file.
+      Ex: 
+      
+      On my setup, copied toolchain to /root/ folder.
 
-Ex: On my setup, copied toolchain to /root/ folder.
+      root@localhost:/home# cat source.sh
 
-root@localhost:/home# cat source.sh
+      export LD_LIBRARY_PATH=/root/thunderx-gcc_5_3-421/thunderx-gcc_5_3-421/lib64:$LD_LIBRARY_PATH
 
-export LD_LIBRARY_PATH=/root/thunderx-gcc_5_3-421/thunderx-gcc_5_3-421/lib64:$LD_LIBRARY_PATH
-
-export PATH=/root/thunderx-gcc_5_3-421/thunderx-gcc_5_3-421/bin:${PATH}
+      export PATH=/root/thunderx-gcc_5_3-421/thunderx-gcc_5_3-421/bin:${PATH}
 
 
 - Please find log files and testcase summary files under output folder.
 
-   'test_results.xls' has all the testcases status with testcase name.
+      'test_results.xls' has all the testcases status with testcase name.
    
-   <testcase>.log has complete test run details.
+       $testcasename.log has complete test run details.
   
 - If we run any performance tests, performance results files under 'rst_report/arm64-thunderx-linuxapp-gcc/cavium/'
-
-    <testcase>.rst file has perfromance numbers. we can convert this rst file into html using 'rst2html.py' ( Install 'sphinx' package to get this utilities)
+       $testcasename.rst file has perfromance numbers. we can convert this rst file into html using 'rst2html.py' ( Install 'sphinx' package to get this utilities)
  
-    <testcase>_ Annex.rst  has all the test commands to capture the performance.
+       $testcasename_ Annex.rst  has all the test commands to capture the performance.
   
