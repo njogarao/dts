@@ -102,7 +102,8 @@ class PmdOutput():
 
     def start_testpmd(self, cores, param='', eal_param='', socket=0):
         # in dpdk2.0 need used --txqflags param to open hardware features
-        if "--txqflags" not in param:
+        # Cavium OcteonTx nic doesn't support this flag.
+        if "--txqflags" not in param and "cavium_a034" not in self.dut.nic_type:
             param += " --txqflags=0"
 
         if type(cores) == list:

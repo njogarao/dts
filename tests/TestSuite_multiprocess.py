@@ -55,6 +55,15 @@ class TestMultiprocess(TestCase, IxiaPacketGenerator):
         """
         #self.verify('bsdapp' not in self.target, "Multiprocess not support freebsd")
 
+        # Get aslr(Addressspace layout randomization) value from /proc entries.
+        self.aslr_path = "/proc/sys/kernel/randomize_va_space"
+        cmd = "cat %s" % self.aslr_path
+        self.randomize_va_space = int(self.dut.send_expect("%s" % cmd, "#"))
+
+        # Disable aslr to run multiprocess test
+        cmd = "echo 0 > %s" % self.aslr_path
+        self.dut.send_expect("%s" %cmd, "#")
+
         self.verify(len(self.dut.get_all_cores()) >= 4, "Not enough Cores")
         self.tester.extend_external_packet_generator(TestMultiprocess, self)
 
@@ -273,6 +282,10 @@ class TestMultiprocess(TestCase, IxiaPacketGenerator):
         """
         Run after each test suite.
         """
+        # Reset original aslr value
+        cmd = "echo %d > %s" % (self.randomize_va_space,self.aslr_path)
+        self.dut.send_expect("%s" %cmd, "#")
+
         self.dut.kill_all()
         self.dut.close_session(self.session_secondary)
 
